@@ -23,6 +23,17 @@ async function main() {
       }
     })
 
+    app.post("/api/whatsapp/v1/webhook", async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        console.log(req.body);
+        res.status(200).json({
+          status: "ok"
+        });
+      } catch (error) {
+        next(error);
+      }
+    });
+
     app.listen(process.env.PORT || 3000, () => {
       logger.info(`Server started on port ${process.env.PORT || 3000}`);
     })
