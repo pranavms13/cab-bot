@@ -25,7 +25,7 @@ async function main() {
 
     app.post("/api/whatsapp/v1/webhook", async (req: Request, res: Response, next: NextFunction) => {
       try {
-        console.log(req.body);
+        console.log(JSON.stringify(req.body));
         res.status(200).json({
           status: "ok"
         });
