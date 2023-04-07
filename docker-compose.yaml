@@ -7,7 +7,7 @@ services:
     volumes:
       - ./data/db:/data/db
     ports:
-      - 27017:27017
+      - 27019:27017
     environment:
       MONGO_INITDB_ROOT_USERNAME: cabuser
       MONGO_INITDB_ROOT_PASSWORD: cabpassword
@@ -19,7 +19,7 @@ services:
     volumes:
       - ./data/redis:/data
     ports:
-      - 6379:6379
+      - 6381:6379
     deploy:
       resources:
         limits:
