@@ -17,7 +17,7 @@ async function main() {
     app.get("/api/whatsapp/v1/webhook", async (req: Request, res: Response, next: NextFunction) => {
       try {
         console.log(req.query);
-        res.status(200).send(req.query.hub_challenge);
+        res.status(200).send(req.query["hub.challenge"]);
       } catch (error) {
         next(error);
       }
