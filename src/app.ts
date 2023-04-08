@@ -6,6 +6,7 @@ import logger from "./utils/logger";
 import Cache from "./utils/cache";
 
 import { v1router as whatsappv1Routes } from "./routes/whatsapp";
+import {v1router as telegramv1Routes} from "./routes/telegram"
 
 async function main() {
   try {
@@ -17,6 +18,7 @@ async function main() {
     app.use(Express.json());
 
     app.use("/api/whatsapp", whatsappv1Routes)
+    app.use("/api/telegram", telegramv1Routes)
 
     app.listen(process.env.PORT || 3000, () => {
       logger.info(`Server started on port ${process.env.PORT || 3000}`);
