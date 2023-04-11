@@ -1,0 +1,8 @@
+[
+  {
+    "general_template_name": "hi_response",
+    "whatsapp_template_name": "welcome_message",
+    "telegram_template_name": null,
+    "content": "Welcome to Namma Yatri!\n\nTo continue, please select the options below."
+  }
+]
