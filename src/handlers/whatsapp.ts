@@ -19,7 +19,7 @@ export async function onMessageReceivedHandler(req: Request, res: Response, next
     const response = await whatsappAxiosInstance.post("/messages", {
       messaging_product: "whatsapp",
       recipient_type: "individual",
-      to: req.body.entry[0].messaging[0].sender.id,
+      to: req.body.entry[0].changes[0].value.contacts[0].wa_id,
       type: "template",
       template: {
         name: "welcome_message",
