@@ -12,24 +12,30 @@ export async function verifyWebhook(req: Request, res: Response, next: NextFunct
 
 export async function onMessageReceivedHandler(req: Request, res: Response, next: NextFunction) {
   try {
+    // Insert All Updates to DB
     DB.instance().collection("whatsapp").insertOne({
       ...req.body,
       timestamp: new Date(),
     });
-    if(req.body.entry[0].changes[0].value.messages) {
-      const response = await whatsappAxiosInstance.post("/messages", {
-        messaging_product: "whatsapp",
-        recipient_type: "individual",
-        to: req.body.entry[0].changes[0].value.contacts[0].wa_id,
-        type: "template",
-        template: {
-          name: "welcome_message",
-          language: {
-            code: "en",
-          },
+
+    // Check for previous states
+
+    // If state not found, create a new state
+
+    let update = req.body;
+    if(update) {}
+    const response = await whatsappAxiosInstance.post("/messages", {
+      messaging_product: "whatsapp",
+      recipient_type: "individual",
+      to: req.body.entry[0].changes[0].value.contacts[0].wa_id,
+      type: "template",
+      template: {
+        name: "welcome_message",
+        language: {
+          code: "en",
         },
-      });
-    }
+      },
+    });
     res.status(200).json({
       status: "ok",
     });

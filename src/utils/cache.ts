@@ -22,4 +22,11 @@ export default class Cache {
     cache = new Redis(this.port, this.host);
     logger.info("Cache initialized");
   }
+
+  static getCache() : Redis {
+    if (!cache) {
+      throw new Error("Cache not initialized");
+    }
+    return cache;
+  }
 }
