@@ -31,6 +31,7 @@ export async function onMessageReceivedHandler(req: Request, res: Response, next
       // Metadata for further processing
       let templateId : string | null = null;
       let rawMessage : string | null = null;
+      let components : any[] = [];
 
       // Check for previous states
       let currentState = await State.fetchFromCache(waId);
@@ -75,12 +76,63 @@ export async function onMessageReceivedHandler(req: Request, res: Response, next
               rawMessage = "Oh no! That's a wrong response. Please try again!";
             } else {
               currentState.metaData.dropLocation = update.entry[0].changes[0].value.messages[0].location;
-              rawMessage = "We are working on booking an auto for you! Please wait for a while.";
-              templateId = null;
+              // rawMessage = "We are working on booking an auto for you! Please wait for a while.";
+              // templateId = null;
               currentState.nextStep = 4;
               currentState.previousStep = 3;
+              templateId = "estimate_reply";
+              components = [
+                {
+                  type: "body",
+                  parameters: [
+                    {
+                      type: "text",
+                      text: "34"
+                    },
+                    {
+                      type: "text",
+                      text: "100"
+                    }
+                  ]
+                }
+              ]
             }
+            rawMessage = null;
             break;
+
+            case 3:
+              if (messageType !== "button") {
+                rawMessage = "Oh no! That's a wrong response. Please try again!";
+              } else {
+                templateId = "trip_confirmation";
+                currentState.nextStep = 5;
+                currentState.previousStep = 4;
+                rawMessage = null;
+                components = [
+                  {
+                    type: "body",
+                    parameters: [
+                      {
+                        type: "text",
+                        text: "KA01ND7063",
+                      },
+                      {
+                        type: "text",
+                        text: "Pranav Bhaiya",
+                      },
+                      {
+                        type: "text",
+                        text: "+916361563076"
+                      },
+                      {
+                        type: "text",
+                        text: Math.floor(1000 + Math.random() * 9000).toString()
+                      }
+                    ],
+                  },
+                ];
+              }
+              break;
 
           default:
             logger.error("Unhandled switch case")
@@ -89,7 +141,7 @@ export async function onMessageReceivedHandler(req: Request, res: Response, next
       }
 
       currentState.saveState();
-      await sendWhatsappMessage(waId, templateId, rawMessage);
+      await sendWhatsappMessage(waId, templateId, rawMessage, components);
     }
 
     res.status(200).json({
@@ -102,7 +154,7 @@ export async function onMessageReceivedHandler(req: Request, res: Response, next
 
 // Private Methods
 
-async function sendWhatsappMessage(waId: string, templateId: string | null, rawMessage: string | null) : Promise<void> {
+async function sendWhatsappMessage(waId: string, templateId: string | null, rawMessage: string | null, components: any[]) : Promise<void> {
   let outgoingMessage : any = {
     messaging_product: "whatsapp",
     recipient_type: "individual",
@@ -119,6 +171,9 @@ async function sendWhatsappMessage(waId: string, templateId: string | null, rawM
         },
       },
     };
+    if(components.length > 0) {
+      outgoingMessage.template["components"] = components;
+    }
   } else if(rawMessage) {
     outgoingMessage = {
       ...outgoingMessage,
