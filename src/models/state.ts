@@ -21,6 +21,7 @@ export default class State {
     } | null;
     contactNumber: string | null;
     isOnlyList: boolean;
+    estimatedPrice: number | null;
   };
 
   constructor(

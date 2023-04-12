@@ -25,9 +25,9 @@ export default class PaymentGateway {
     logger.info("Razorpay initialized")
   }
 
-  getInstance() : Razorpay {
+  static getInstance() : Razorpay {
     if(!instance) {
-      this.initialize()
+      throw new Error("Razorpay not initialized")
     }
     return instance!
   }
