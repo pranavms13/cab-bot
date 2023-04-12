@@ -10,7 +10,11 @@ export default class State {
   userId: string;
   previousStep: number;
   nextStep: number;
-  metaData: any;
+  metaData: {
+    pickupLocation: string;
+    dropLocation: string;
+    contactNumber: string;
+  };
 
   constructor(platform: Platform, userId: string, previousStep: number, nextStep: number, metaData: any) {
     this.platform = platform;
