@@ -138,20 +138,29 @@ export async function onMessageReceivedHandler(req: Request, res: Response, next
                     parameters: [
                       {
                         type: "text",
-                        text: "KA01ND7063",
+                        text: `KA ${faker.random.numeric(2, {
+                          allowLeadingZeros: true,
+                        })} ${faker.random.alpha({
+                          count: 2,
+                          casing: "upper",
+                        })} ${faker.random.numeric(4, {
+                          allowLeadingZeros: true,
+                        })}`,
                       },
                       {
                         type: "text",
-                        text: "Pranav Bhaiya",
+                        text: faker.name.fullName(),
                       },
                       {
                         type: "text",
-                        text: "+916361563076"
+                        text: faker.phone.number("+91 ##########"),
                       },
                       {
                         type: "text",
-                        text: Math.floor(1000 + Math.random() * 9000).toString()
-                      }
+                        text: Math.floor(
+                          1000 + Math.random() * 9000
+                        ).toString(),
+                      },
                     ],
                   },
                 ];
