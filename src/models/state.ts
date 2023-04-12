@@ -34,7 +34,7 @@ export default class State {
 
   static async fetchFromCache(key: string) : Promise<State | null> {
     let data = await Cache.getCache().hgetall(key);
-    if (data) {
+    if (Object.keys(data).length > 0) {
       return new State(
         data.platform == "whatsapp" ? Platform.Whatsapp : Platform.Telegram,
         data.userId,
