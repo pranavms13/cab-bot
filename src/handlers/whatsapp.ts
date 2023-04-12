@@ -1,4 +1,4 @@
-import {Request, Response, NextFunction} from "express"
+import {Request, Response, NextFunction, raw} from "express"
 import DB from "../utils/db";
 import { whatsappAxiosInstance } from "../utils/whatsapp";
 import State, { Platform } from "../models/state";
@@ -46,10 +46,14 @@ export async function onMessageReceivedHandler(req: Request, res: Response, next
         rawMessage = null;
       } else {
         switch(currentState.previousStep) {
-          case 1:
+          case 0:
             if (messageType !== "button") {
               rawMessage = "Oh no! That's a wrong response. Please try again!";
             } else {
+              templateId = "request_pickup_location";
+              currentState.nextStep = 2;
+              currentState.previousStep = 1;
+              rawMessage = null;
             }
             break;
         }
