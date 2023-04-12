@@ -56,6 +56,9 @@ export async function onMessageReceivedHandler(req: Request, res: Response, next
               rawMessage = null;
             }
             break;
+          default:
+            logger.error("Unhandled switch case")
+            rawMessage = "Unhandled switch case encountered!"
         }
       }
 
@@ -84,7 +87,7 @@ async function sendWhatsappMessage(waId: string, templateId: string | null, rawM
       ...outgoingMessage,
       type: "template",
       template: {
-        name: "welcome_message",
+        name: templateId,
         language: {
           code: "en",
         },
