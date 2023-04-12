@@ -42,6 +42,8 @@ export async function onMessageReceivedHandler(req: Request, res: Response, next
           dropLocation: null,
           pickupDate: null,
         });
+        templateId = "welcome_message";
+        rawMessage = null;
       } else {
         switch(currentState.previousStep) {
           case 1:
@@ -98,7 +100,7 @@ async function sendWhatsappMessage(waId: string, templateId: string | null, rawM
     const _ = await whatsappAxiosInstance.post("/messages", outgoingMessage);
   } catch (error) {
     if(error instanceof AxiosError) {
-      logger.error(error.response?.data)
+      logger.error(JSON.stringify(error.response?.data, null, 2))
     }
   }
 }
