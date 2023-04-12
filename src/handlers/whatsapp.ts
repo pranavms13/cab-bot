@@ -60,6 +60,12 @@ export async function onMessageReceivedHandler(req: Request, res: Response, next
               rawMessage = null;
               if(selectedButtonMessageContent.split(".")[0] == "2") {
                 currentState.metaData.isOnlyList = true;
+              } else if (selectedButtonMessageContent.split(".")[0] == "3") {
+                rawMessage =
+                  "I am a bot that can help you book an auto. Please type 'Hi' to begin.\n\n\nTo know more about us, click on the link below:\nhttps://nammayatri.in/about/";
+                templateId = null;
+                  currentState.nextStep = 0;
+                currentState.previousStep = 0;
               }
             }
             break;
