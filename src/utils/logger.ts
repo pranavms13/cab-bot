@@ -16,7 +16,7 @@ const logger = winston.createLogger({
     debug: 4,
   },
   format: winston.format.combine(
-    winston.format.label({ label: "BTP Chats Core" }),
+    winston.format.label({ label: "NammaYatri - CabBot" }),
     winston.format.timestamp(),
     myFormat
   ),

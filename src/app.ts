@@ -33,6 +33,16 @@ async function main() {
       logger.info(`Server started on port ${process.env.PORT || 3000}`);
     })
     bot.launch();
+    process.once('SIGINT', () => {
+      bot.stop('SIGINT');
+      app.removeAllListeners();
+      process.exit(0);
+    });
+    process.once('SIGTERM', () => {
+      bot.stop('SIGTERM');
+      app.removeAllListeners();
+      process.exit(0);
+    });
   } catch (error) {
     logger.error(error);
   }
