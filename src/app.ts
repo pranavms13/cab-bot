@@ -7,6 +7,7 @@ import Cache from "./utils/cache";
 
 import { v1router as whatsappv1Routes } from "./routes/whatsapp";
 import {v1router as telegramv1Routes} from "./routes/telegram"
+import bot from "./handlers/telegramv2";
 import State from "./models/state";
 
 async function main() {
@@ -31,6 +32,17 @@ async function main() {
     app.listen(process.env.PORT || 3000, () => {
       logger.info(`Server started on port ${process.env.PORT || 3000}`);
     })
+    bot.launch();
+    process.once('SIGINT', () => {
+      bot.stop('SIGINT');
+      app.removeAllListeners();
+      process.exit(0);
+    });
+    process.once('SIGTERM', () => {
+      bot.stop('SIGTERM');
+      app.removeAllListeners();
+      process.exit(0);
+    });
   } catch (error) {
     logger.error(error);
   }
