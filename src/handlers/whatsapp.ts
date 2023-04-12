@@ -56,6 +56,32 @@ export async function onMessageReceivedHandler(req: Request, res: Response, next
               rawMessage = null;
             }
             break;
+
+          case 1:
+            if (messageType !== "location") {
+              rawMessage = "Oh no! That's a wrong response. Please try again!";
+            }
+            else {
+              currentState.metaData.pickupLocation = update.entry[0].changes[0].value.messages[0].location;
+              templateId = "request_drop_location";
+              currentState.nextStep = 3;
+              currentState.previousStep = 2;
+              rawMessage = null;
+            }
+            break;
+
+          case 2:
+            if (messageType !== "location") {
+              rawMessage = "Oh no! That's a wrong response. Please try again!";
+            } else {
+              currentState.metaData.dropLocation = update.entry[0].changes[0].value.messages[0].location;
+              rawMessage = "We are working on booking an auto for you! Please wait for a while.";
+              templateId = null;
+              currentState.nextStep = 4;
+              currentState.previousStep = 3;
+            }
+            break;
+
           default:
             logger.error("Unhandled switch case")
             rawMessage = "Unhandled switch case encountered!"

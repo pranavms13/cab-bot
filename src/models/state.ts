@@ -11,8 +11,14 @@ export default class State {
   previousStep: number;
   nextStep: number;
   metaData: {
-    pickupLocation: string | null;
-    dropLocation: string | null;
+    pickupLocation: {
+      latitude: number;
+      longitude: number;
+    } | null;
+    dropLocation: {
+      latitude: number;
+      longitude: number;
+    } | null;
     contactNumber: string | null;
   };
 
