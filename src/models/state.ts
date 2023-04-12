@@ -11,9 +11,9 @@ export default class State {
   previousStep: number;
   nextStep: number;
   metaData: {
-    pickupLocation: string;
-    dropLocation: string;
-    contactNumber: string;
+    pickupLocation: string | null;
+    dropLocation: string | null;
+    contactNumber: string | null;
   };
 
   constructor(platform: Platform, userId: string, previousStep: number, nextStep: number, metaData: any) {

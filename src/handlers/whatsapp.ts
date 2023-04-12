@@ -37,7 +37,11 @@ export async function onMessageReceivedHandler(req: Request, res: Response, next
 
       // If state not found, create a new state
       if (!currentState) {
-        currentState = new State(Platform.Whatsapp, waId, 0, 1, {});
+        currentState = new State(Platform.Whatsapp, waId, 0, 1, {
+          pickupLocation: null,
+          dropLocation: null,
+          pickupDate: null,
+        });
       } else {
         switch(currentState.previousStep) {
           case 1:
