@@ -44,9 +44,13 @@ export default class State {
         data.userId,
         parseInt(data.previousStep),
         parseInt(data.nextStep),
-        JSON.parse(data.metaData)
+        data.metaData? JSON.parse(data.metaData) : {}
       );
     }
     return null
+  }
+
+  static async clearAllCache() : Promise<void> {
+    await Cache.getCache().flushall();
   }
 }

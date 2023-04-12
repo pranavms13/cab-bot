@@ -7,6 +7,7 @@ import Cache from "./utils/cache";
 
 import { v1router as whatsappv1Routes } from "./routes/whatsapp";
 import {v1router as telegramv1Routes} from "./routes/telegram"
+import State from "./models/state";
 
 async function main() {
   try {
@@ -16,6 +17,13 @@ async function main() {
     const app = Express();
 
     app.use(Express.json());
+
+    app.get("/api/flushAllCache", async (req: Request, res: Response, next: NextFunction) => {
+      await State.clearAllCache();
+      res.status(200).json({
+        status: "ok",
+      });
+    })
 
     app.use("/api/whatsapp", whatsappv1Routes)
     app.use("/api/telegram", telegramv1Routes)
