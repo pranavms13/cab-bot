@@ -6,3 +6,5 @@ whatsappVerifyToken=<enter-token-here>
 whatsappPhoneId=<enter-phone-id-here>
 TELEGRAM_BOT_API_SECRET_TOKEN=<enter-secret-here>
 TTL=15
+RAZORPAY_KEY_ID=<enter-key-here>
+RAZORPAY_KEY_SECRET=<enter-secret-here>

@@ -8,11 +8,14 @@ import Cache from "./utils/cache";
 import { v1router as whatsappv1Routes } from "./routes/whatsapp";
 import {v1router as telegramv1Routes} from "./routes/telegram"
 import State from "./models/state";
+import PaymentGateway from "./utils/razorpay";
 
 async function main() {
   try {
     await new DB().initialize();
     await new Cache().initialize();
+
+    new PaymentGateway().initialize();
 
     const app = Express();
 
