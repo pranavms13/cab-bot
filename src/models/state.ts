@@ -27,7 +27,10 @@ export default class State {
   async saveState() : Promise<void> {
     await Cache.getCache().hset(
       this.userId,
-      this
+      {
+        ...this,
+        metaData: JSON.stringify(this.metaData),
+      }
     );
     await Cache.getCache().expire(this.userId, parseInt(process.env.TTL!) * 60);
   }
