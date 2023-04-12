@@ -175,6 +175,9 @@ export async function onMessageReceivedHandler(req: Request, res: Response, next
 
       if(currentState.nextStep === 0 && currentState.previousStep === 0) {
         currentState.clearCache()
+      } else if(currentState.nextStep === 5) {
+        // Temporary Only
+        currentState.clearCache()
       } else {
         currentState.saveState();
       }
