@@ -27,11 +27,7 @@ export default class State {
   async saveState() : Promise<void> {
     await Cache.getCache().hset(
       this.userId,
-      this.platform,
-      this.userId,
-      this.previousStep,
-      this.nextStep,
-      JSON.stringify(this.metaData)
+      this
     );
     await Cache.getCache().expire(this.userId, parseInt(process.env.TTL!) * 60);
   }
