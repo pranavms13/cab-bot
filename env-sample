@@ -6,3 +6,7 @@ whatsappVerifyToken=<enter-token-here>
 whatsappPhoneId=<enter-phone-id-here>
 TELEGRAM_BOT_API_SECRET_TOKEN=<enter-secret-here>
 TTL=15
+costBase=30
+baseDistance=2
+costDriverConvenience=10
+costPerKm=15
