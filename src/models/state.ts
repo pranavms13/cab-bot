@@ -3,6 +3,7 @@ import Cache from "../utils/cache";
 export enum Platform {
   Whatsapp = 'whatsapp',
   Telegram = 'telegram',
+  GoogleAssistant = 'google_assistant',
 }
 
 export default class State {

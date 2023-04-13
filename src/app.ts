@@ -6,7 +6,8 @@ import logger from "./utils/logger";
 import Cache from "./utils/cache";
 
 import { v1router as whatsappv1Routes } from "./routes/whatsapp";
-import {v1router as telegramv1Routes} from "./routes/telegram"
+import { v1router as telegramv1Routes } from "./routes/telegram";
+import { v1router as googleAssistantv1Routes } from "./routes/googleAssistant";
 import bot from "./handlers/telegramv2";
 import State from "./models/state";
 
@@ -28,6 +29,7 @@ async function main() {
 
     app.use("/api/whatsapp", whatsappv1Routes)
     app.use("/api/telegram", telegramv1Routes)
+    app.use("/api/googleAssistant", googleAssistantv1Routes)
 
     app.listen(process.env.PORT || 3000, () => {
       logger.info(`Server started on port ${process.env.PORT || 3000}`);
