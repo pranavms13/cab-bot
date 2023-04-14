@@ -2,12 +2,16 @@ import {Request, Response, NextFunction} from "express"
 import State, { Platform } from "../models/state";
 import { conversation } from "@assistant/conversation";
 
+import { verify } from "../utils/google";
+
 const gapp = conversation();
 
 export async function handleGoogleAssistantWebhookHandler(req: Request, res: Response, next: NextFunction) {
     try {
         let authtoken = req.headers.authorization;
         console.log(authtoken);
+        verify(authtoken!);
+        next();
     } catch (error) {
         next(error);
     }
