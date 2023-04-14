@@ -58,6 +58,7 @@ gapp.handle("checkUserRegistered", async (conv) => {
 
 gapp.handle("shareContact", async (conv) => {
     console.log(conv);
+    console.log(conv.intent.params!.phoneNumber);
 });
 
 export default gapp;
