@@ -1,17 +1,20 @@
 import {Request, Response, NextFunction} from "express"
 import State, { Platform } from "../models/state";
+import { conversation } from "@assistant/conversation";
 
-export async function handleGoogleAssistant(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) {
-    try {
-      console.log(req.body);
-      res.status(200).json({
-        status: "ok",
-      });
-    } catch (error) {
-      next(error);
-    }
-}
+const gapp = conversation();
+
+gapp.handle("checkUserRegistered", async (conv) => {
+    console.log("checkUserRegistered");
+    console.log(conv.user);
+    // let state = new State(Platform.GoogleAssistant, conv.user.id, -1, 0, {
+    //     pickupLocation: null,
+    //     dropLocation: null,
+    //     contactNumber: null,
+    //     isOnlyList: false
+    // });
+    // await state.saveState();
+    // conv.ask("Please share your contact number.");
+});
+
+export default gapp;
