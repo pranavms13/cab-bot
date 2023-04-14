@@ -8,7 +8,6 @@ import Cache from "./utils/cache";
 import { v1router as whatsappv1Routes } from "./routes/whatsapp";
 import {v1router as telegramv1Routes} from "./routes/telegram"
 import {v1router as bookV1Routes} from "./routes/book"
-import { v1router as telegramv1Routes } from "./routes/telegram";
 import { v1router as googleAssistantv1Routes } from "./routes/googleAssistant";
 import bot from "./handlers/telegramv2";
 import State from "./models/state";
