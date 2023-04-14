@@ -4,6 +4,15 @@ import { conversation } from "@assistant/conversation";
 
 const gapp = conversation();
 
+export async function handleGoogleAssistantWebhookHandler(req: Request, res: Response, next: NextFunction) {
+    try {
+        let authtoken = req.headers.authorization;
+        console.log(authtoken);
+    } catch (error) {
+        next(error);
+    }
+}
+
 gapp.handle("checkUserRegistered", async (conv) => {
     console.log("checkUserRegistered");
     console.log(conv.user);
