@@ -247,9 +247,7 @@ export async function triggerTripCompletionHandler(req: Request, res: Response, 
   }
 }
 
-// Private Methods
-
-async function sendWhatsappMessage(waId: string, templateId: string | null, rawMessage: string | null, components: any[]) : Promise<void> {
+export async function sendWhatsappMessage(waId: string, templateId: string | null, rawMessage: string | null, components: any[]) : Promise<void> {
   let outgoingMessage : any = {
     messaging_product: "whatsapp",
     recipient_type: "individual",
@@ -287,3 +285,5 @@ async function sendWhatsappMessage(waId: string, templateId: string | null, rawM
     }
   }
 }
+
+// Private Methods
