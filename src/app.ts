@@ -6,15 +6,20 @@ import logger from "./utils/logger";
 import Cache from "./utils/cache";
 
 import { v1router as whatsappv1Routes } from "./routes/whatsapp";
+import {v1router as telegramv1Routes} from "./routes/telegram"
+import {v1router as bookV1Routes} from "./routes/book"
 import { v1router as telegramv1Routes } from "./routes/telegram";
 import { v1router as googleAssistantv1Routes } from "./routes/googleAssistant";
 import bot from "./handlers/telegramv2";
 import State from "./models/state";
+import PaymentGateway from "./utils/razorpay";
 
 async function main() {
   try {
     await new DB().initialize();
     await new Cache().initialize();
+
+    new PaymentGateway().initialize();
 
     const app = Express();
 
@@ -29,6 +34,7 @@ async function main() {
 
     app.use("/api/whatsapp", whatsappv1Routes)
     app.use("/api/telegram", telegramv1Routes)
+    app.use("/api/book", bookV1Routes)
     app.use("/api/googleAssistant", googleAssistantv1Routes)
 
     app.listen(process.env.PORT || 3000, () => {

@@ -5,6 +5,8 @@ import State, { Platform } from "../models/state";
 import { AxiosError } from "axios";
 import logger from "../utils/logger";
 import { faker } from "@faker-js/faker"
+import { InvalidDataError } from "../utils/errors";
+import PaymentGateway from "../utils/razorpay";
 
 export async function verifyWebhook(req: Request, res: Response, next: NextFunction) {
   try {
@@ -111,17 +113,19 @@ export async function onMessageReceivedHandler(req: Request, res: Response, next
               currentState.nextStep = 4;
               currentState.previousStep = 3;
               templateId = "estimate_reply";
+              let estimatedPrice = faker.random.numeric(2);
+              currentState.metaData.estimatedPrice = parseInt(estimatedPrice);
               components = [
                 {
                   type: "body",
                   parameters: [
                     {
                       type: "text",
-                      text: "34"
+                      text: faker.random.numeric(2),
                     },
                     {
                       type: "text",
-                      text: "100"
+                      text: faker.random.numeric(2)
                     }
                   ]
                 }
@@ -198,9 +202,52 @@ export async function onMessageReceivedHandler(req: Request, res: Response, next
   }
 }
 
-// Private Methods
+export async function triggerTripCompletionHandler(req: Request, res: Response, next: NextFunction) {
+  try {
+    let { waId } = req.body
+    if(!waId) {
+      throw new InvalidDataError("waId is required")
+    }
+    const currentState = await State.fetchFromCache(waId)
+    if(!currentState) {
+      throw new InvalidDataError("No active session found")
+    }
+    let amount = currentState.metaData.estimatedPrice
+    if(!amount) throw new InvalidDataError("Amount is required")
+    let result = await PaymentGateway.getInstance().paymentLink.create({
+      amount: amount,
+      currency: "INR",
+      accept_partial: false,
+      customer: {
+        name: faker.name.fullName(),
+        email: faker.internet.email(),
+      },
+      notify: {
+        email: false,
+        sms: false,
+      },
+      callback_url: "https://www.google.com",
+    })
+    sendWhatsappMessage(waId, "ride_finished", null, [
+      {
+        type: "body",
+        parameters: [
+          {
+            type: "text",
+            text: result.short_url,
+          },
+        ],
+      },
+    ]);
+    res.status(201).json({
+      status: "ok",
+    })
+  } catch (error) {
+    next(error);
+  }
+}
 
-async function sendWhatsappMessage(waId: string, templateId: string | null, rawMessage: string | null, components: any[]) : Promise<void> {
+export async function sendWhatsappMessage(waId: string, templateId: string | null, rawMessage: string | null, components: any[]) : Promise<void> {
   let outgoingMessage : any = {
     messaging_product: "whatsapp",
     recipient_type: "individual",
@@ -238,3 +285,5 @@ async function sendWhatsappMessage(waId: string, templateId: string | null, rawM
     }
   }
 }
+
+// Private Methods
