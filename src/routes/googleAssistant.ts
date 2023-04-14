@@ -1,6 +1,6 @@
 import { Router } from "express";
-import gapp, {handleGoogleAssistantWebhookHandler} from "../handlers/googleAssistant";
+import gapp from "../handlers/googleAssistant";
 
 export const v1router = Router();
 
-v1router.post("/v1/handler", handleGoogleAssistantWebhookHandler, gapp);
+v1router.post("/v1/handler", gapp);

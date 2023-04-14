@@ -6,20 +6,9 @@ import { verify } from "../utils/google";
 
 const gapp = conversation();
 
-export async function handleGoogleAssistantWebhookHandler(req: Request, res: Response, next: NextFunction) {
-    try {
-        let authtoken = req.headers.authorization;
-        console.log(authtoken);
-        verify(authtoken!);
-        next();
-    } catch (error) {
-        next(error);
-    }
-}
-
 gapp.handle("checkUserRegistered", async (conv) => {
     console.log("checkUserRegistered");
-    console.log(conv.user);
+    console.log(conv.headers);
     // let state = new State(Platform.GoogleAssistant, conv.user.id, -1, 0, {
     //     pickupLocation: null,
     //     dropLocation: null,
