@@ -7,8 +7,8 @@ import { verify } from "../utils/google";
 const gapp = conversation();
 
 gapp.handle("checkUserRegistered", async (conv) => {
-    console.log("checkUserRegistered");
-    console.log(conv.headers);
+    let payload = await verify(conv.headers['authorization'] as string);
+    console.log(payload);
     // let state = new State(Platform.GoogleAssistant, conv.user.id, -1, 0, {
     //     pickupLocation: null,
     //     dropLocation: null,
