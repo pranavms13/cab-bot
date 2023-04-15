@@ -20,6 +20,7 @@ gapp.handle("checkUserRegistered", async (conv) => {
         await state.saveState();
         conv.user.params = {
             ...conv.user.params,
+            name: payload!.name,
             contactNumber: (result as any).phone,
             id: payload!.sub
         }
@@ -33,6 +34,7 @@ gapp.handle("checkUserRegistered", async (conv) => {
         await state.saveState();
         conv.user.params = {
             ...conv.user.params,
+            name: payload!.name,
             contactNumber: null,
             id: payload!.sub
         }
@@ -57,8 +59,25 @@ gapp.handle("checkUserRegistered", async (conv) => {
 });
 
 gapp.handle("shareContact", async (conv) => {
-    console.log(conv);
-    console.log(conv.intent.params!.phoneNumber);
+    let phoneNumber = conv.intent.params!.phoneNumber.resolved;
+    if(phoneNumber && phoneNumber.length == 10){
+        let payload = await verify(conv.headers['authorization'] as string);
+        await DB.instance().collection('googleAssistantContacts').updateOne({id: payload!.sub}, {$set: {phone: phoneNumber}});
+        let state = new State(Platform.GoogleAssistant, payload!.sub, 0, 1, {
+            pickupLocation: null,
+            dropLocation: null,
+            contactNumber: phoneNumber,
+            isOnlyList: false
+        });
+        await state.saveState();
+        conv.user.params = {
+            ...conv.user.params,
+            contactNumber: phoneNumber,
+            id: payload!.sub
+        }
+        conv.add("Thank you for sharing your contact number. You can now book an auto.");
+        
+    }
 });
 
 export default gapp;
