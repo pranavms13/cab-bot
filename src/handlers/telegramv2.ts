@@ -209,8 +209,20 @@ async function confirmBooking(ctx: Context){
 
 async function listNearbyAutos(ctx: Context){
     let state = await State.fetchFromCache(ctx.chat!.id.toString());
+    let rawMessage = "List of Autos nearby:\n";
     if(state?.nextStep == 1){
-        ctx.reply("Pending Development");
+        for(let i = 0; i < 5; i++) {
+            const driverName = faker.name.fullName()
+            const distance = `${faker.random.numeric(1, {
+              allowLeadingZeros: false,
+              bannedDigits: ["2", "3", "4", "5", "6", "7", "8", "9"],
+            })}.${faker.random.numeric(2, {
+              allowLeadingZeros: true,
+            })}`;
+            const phone = faker.phone.number("+91 ##########")
+            rawMessage += `${i+1}. ${driverName} - ${distance} km away - ${phone}\n`
+        }
+        ctx.reply(rawMessage);
     }else{
         bot.telegram.sendMessage(ctx.chat!.id.toString(), "Please send '/start' to begin.");
     }
