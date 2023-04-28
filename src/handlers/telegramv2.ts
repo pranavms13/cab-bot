@@ -9,7 +9,7 @@ import { getDistanceBetweenTwoPoints } from "../utils/geo";
 import { faker } from "@faker-js/faker";
 
 
-const bot = new Telegraf(process.env.telegramBotToken);
+const bot = new Telegraf(process.env.telegramBotToken!);
 
 bot.command('start', async (ctx: Context) => {
     let result = await DB.instance().collection('telegramContacts').findOne({id: ctx.chat?.id})
