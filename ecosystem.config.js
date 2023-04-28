@@ -3,7 +3,7 @@ module.exports = {
     {
       name: "cab-bot",
       script: "dist/app.js",
-      instances: 2,
+      instances: 1,
       autorestart: false,
       watch: false,
     },

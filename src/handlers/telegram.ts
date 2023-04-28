@@ -1,5 +1,6 @@
 import {Request, Response, NextFunction} from "express"
 import { TelegramAuthenticatedRequest } from "../middlewares/auth";
+import State, { Platform } from "../models/state";
 
 export async function handleTelegramWebhookHandler(
   req: TelegramAuthenticatedRequest,
@@ -17,9 +18,20 @@ export async function handleTelegramWebhookHandler(
 }
 
 // Private Functions
-
 async function handleTelegramWebhook(data: TelegramUpdate) {
-  console.log(JSON.stringify(data, null, 2));
+  // console.log(JSON.stringify(data, null, 2));
+  if(!data.message?.from.id){
+    return;
+  }
+  let currentState = await State.fetchFromCache(data.message?.from.id.toString());
+  if (!currentState) {
+    currentState = new State(Platform.Telegram, data.message?.from.id.toString(), 0, 1, {
+      pickupLocation: null,
+      dropLocation: null,
+      pickupDate: null,
+    });
+    
+  }
 }
 
 // Types
